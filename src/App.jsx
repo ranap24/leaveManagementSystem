@@ -63,11 +63,11 @@ function App() {
           loader: loaderAction,
           action: registerAction,
         },
-        {
-          path : "/listUsers",
-          element : <ManageUsers isLoggedIn = {isLoggedIn} isInRole = {isInRole}/>,
-          loader : userLoader
-        },
+        // {
+        //   path : "/listUsers",
+        //   element : <ManageUsers isLoggedIn = {isLoggedIn} isInRole = {isInRole}/>,
+        //   loader : userLoader
+        // },
         {
           path: "/logout",
           element: (

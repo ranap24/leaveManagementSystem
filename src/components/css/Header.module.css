@@ -1,20 +1,20 @@
-/* Container for the entire nav */
+/* Header.module.css */
+
+/* General Styles */
 .navContainer {
-  background-color: #4CAF50;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
 }
 
-/* Navigation bar */
 .nav {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  padding: 1rem;
+  background-color: #000000;
+  color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Left section (Title and Home) */
 .navLeft {
   display: flex;
   align-items: center;
@@ -23,108 +23,63 @@
 .logo {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
+  cursor: pointer;
 }
 
 .iconPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: #fff;
-  margin-right: 10px;
+  background-color: #ffffff;
   border-radius: 50%;
-  display: inline-block;
-}
-
-.title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: white;
+  color: #000000;
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
 }
 
 .navLink {
-  color: white;
+  margin: 0 0.5rem;
+  color: #ffffff;
   text-decoration: none;
-  margin-right: 1rem;
-  font-size: 1rem;
-  padding: 0.5rem;
-  transition: background-color 0.3s ease;
 }
 
 .navLink:hover {
-  background-color: #45a049;
-  border-radius: 5px;
+  text-decoration: underline;
 }
 
-/* Right section (User greeting and dropdown) */
-.navRight {
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 2rem;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
 }
 
-.profileCard {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.profileInfo {
-  display: flex;
-  align-items: center;
-}
-
-.greeting {
-  color: white;
-  margin-right: 10px; /* Spacing between the greeting and the icon */
-}
-
-.userIcon {
-  font-size: 24px; /* Adjust size of the user icon */
-  color: white; /* Make the icon white */
-}
-
-.dropdownContent {
-  display: none;
-  position: absolute;
-  background-color: #4CAF50;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding: 0.5rem;
-  top: 50px;
-  right: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none; /* Disable pointer events by default */
-}
-
-
-.dropdownContent a {
-  color: white;
-  padding: 10px;
+.sidebarLink {
+  margin-bottom: 1rem;
+  color: #ffffff;
   text-decoration: none;
-  display: block;
 }
 
-.dropdownContent a:hover {
-  background-color: #45a049;
+.sidebarLink:hover {
+  text-decoration: underline;
 }
 
-/* Initially hide dropdown content */
-
-/* Show the dropdown when hovering over the profile card or dropdown content */
-.profileCard:hover .dropdownContent,
-.dropdownContent:hover {
-  display: block;
-  opacity: 1;
-  pointer-events: auto; /* Enable pointer events when hovered */
-}
-
-/* Ensure profile card reacts to hover correctly */
-.profileCard {
-  position: relative;
-  display: flex;
-  align-items: center;
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #ffffff;
   cursor: pointer;
-  pointer-events: auto; /* Allow profile card to trigger hover */
+  align-self: flex-end;
 }

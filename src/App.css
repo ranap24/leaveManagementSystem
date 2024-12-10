@@ -1,63 +1,64 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f9f9;
-    margin: 0;
-    padding: 0;
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background-color: #ffffff; /* White background for a clean look */
+  color: #000000; /* Black text for readability */
+  margin: 0;
+  padding: 0;
+}
 
-  .App {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  .header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-size: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+.header {
+  background-color: #000000; /* Black header for contrast */
+  color: #ffffff; /* White text for visibility */
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+}
 
-  .main-content {
-    flex-grow: 1;
-    padding: 2rem;
-  }
-  
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #f9f9f9; /* Slightly off-white for visual relief */
+  color: #000000; /* Black text for consistency */
+}
 
-  .footer {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-size: 1rem;
-  }
-  
+.footer {
+  background-color: #000000; /* Black footer to match the header */
+  color: #ffffff; /* White text for contrast */
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+}
 
-  button {
-    padding: 0.6rem 1.2rem;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
- 
-  a {
-    color: #4CAF50;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #000000; /* Black button */
+  border: 1px solid #000000; /* Matching border */
+  color: #ffffff; /* White text */
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #333333; /* Slightly lighter black */
+  color: #ffffff; /* Ensure text remains visible */
+}
+
+a {
+  color: #000000; /* Black links for consistency */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #333333; /* Slightly lighter black on hover */
+}
