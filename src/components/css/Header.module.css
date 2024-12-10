@@ -1,25 +1,130 @@
-.nav{
-  background-color:rgb(8, 8, 8);
-  overflow: hidden;
-  text-align: center;
-  
+/* Container for the entire nav */
+.navContainer {
+  background-color: #4CAF50;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.nav li{
-  display: inline;
-  padding: 1rem;
-  
+
+/* Navigation bar */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
-.nav li a{
+
+/* Left section (Title and Home) */
+.navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.iconPlaceholder {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  margin-right: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.navLink {
+  color: white;
   text-decoration: none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: larger;
-  background-color:rgb(10, 10, 10);
-  color: rgb(245, 244, 244);
-  padding : 5px;
-}
-.nav li a:hover{
-  background-color: white;
-  color : black;
-
+  margin-right: 1rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
+.navLink:hover {
+  background-color: #45a049;
+  border-radius: 5px;
+}
+
+/* Right section (User greeting and dropdown) */
+.navRight {
+  display: flex;
+  align-items: center;
+}
+
+.profileCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+}
+
+.greeting {
+  color: white;
+  margin-right: 10px; /* Spacing between the greeting and the icon */
+}
+
+.userIcon {
+  font-size: 24px; /* Adjust size of the user icon */
+  color: white; /* Make the icon white */
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #4CAF50;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 0.5rem;
+  top: 50px;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Disable pointer events by default */
+}
+
+
+.dropdownContent a {
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdownContent a:hover {
+  background-color: #45a049;
+}
+
+/* Initially hide dropdown content */
+
+/* Show the dropdown when hovering over the profile card or dropdown content */
+.profileCard:hover .dropdownContent,
+.dropdownContent:hover {
+  display: block;
+  opacity: 1;
+  pointer-events: auto; /* Enable pointer events when hovered */
+}
+
+/* Ensure profile card reacts to hover correctly */
+.profileCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto; /* Allow profile card to trigger hover */
+}
