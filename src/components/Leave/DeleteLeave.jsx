@@ -1,22 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import { deletLeave } from "../Http/leave";
+import { deleteLeave } from "../../Http/leave";
+import toast from "react-hot-toast";
 
 function DeleteLeave({ leaveId }) {
     const navigate = useNavigate();
 
     const handleDelete = async () => {
-        const confirmed = window.confirm("Are you sure you want to cancel this request?");
+        const confirmed = window.confirm("Canceling the LeaveApplication?");
         if (confirmed) {
             try {
-                const response = await deletLeave(leaveId);
-                const {isSuccess} = await response.json();
+                const response = await deleteLeave(leaveId);
+                const {isSuccess,message} = await response.json();
                 if(isSuccess)
                 {
+                    toast.success(message);
                     navigate("/leaveList");
                 }
                 else
                 {
-                    alert("Error occured:" + data.message);
+                    taost.error("Error occured:" + message);
                 }
             } catch (err) {
                 alert("Error occurred: " + err.message); 
@@ -30,7 +32,7 @@ function DeleteLeave({ leaveId }) {
 
     return (
         <div>
-            <button onClick={handleDelete}>Delete Leave</button>
+            <button onClick={handleDelete}>Cancel</button>
         </div>
     );
 }

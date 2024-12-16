@@ -1,12 +1,14 @@
 import { Form, useActionData,useNavigate,useRouteError } from 'react-router-dom'; 
-import Input from "./Input";  
-import classes from './css/form.module.css';  
+import Input from "../Input";  
+import classes from '../css/form.module.css';  
 import { useState,useRef,useEffect } from 'react';
-import { modifyLeave } from '../Http/leave';
+import { modifyLeave } from '../../Http/leave';
+import { leaveApplicationValidation } from '../../util/Validation';
+import toast from 'react-hot-toast';
 
 function LeaveApplication({method,loaderData}) {
     const [TotalDays,setTotalDays] = useState(loaderData.totalDays||0);
-    const [formError, setFormError] = useState("");
+    const [formError, setFormError] = useState({});
     const error = useRouteError();
     const response = useActionData();
     const fromRef = useRef(0);
@@ -17,16 +19,23 @@ function LeaveApplication({method,loaderData}) {
       if (response ) {
         if(response.isSuccess)
         {
-            alert(response.message)
+            toast.success(response.message);
             navigate('/leaveList')
         }
         else
         {
-            setFormError(response.message);
+            if(response.errors)
+                {
+                  setFormError(response.errors)
+                }
+                else
+                {
+                  toast.error(response.message)
+                }
         }
       }
       if (error) {
-        setFormError(error.message || "Problem occurred");
+        toast.error(error.message);
       }
     }, [response, error]);
 
@@ -34,12 +43,39 @@ function LeaveApplication({method,loaderData}) {
         const fromDate = new Date(fromRef.current.value);
         const toDate = new Date(toRef.current.value);
 
+        fromDate.setHours(0, 0, 0, 0);
+        toDate.setHours(0, 0, 0, 0);
+
         if (fromDate && toDate && !isNaN(fromDate.getTime()) && !isNaN(toDate.getTime())) {
             const diffInMs = toDate.getTime() - fromDate.getTime();
-            const diffInDays = Math.round((diffInMs / (1000 * 3600 * 24)*10))/10; 
+            const diffInDays = Math.round((diffInMs / (1000 * 3600 * 24)*10))/10 + 1; 
             setTotalDays(diffInDays ); 
         }
+
+        if(formError && formError.fromDate || formError.toDate)
+        {
+            setFormError((prevErrors) => ({
+                ...prevErrors,
+                fromDate: null ,
+                toDate: null 
+            }));
+        }
+       
     };
+
+    const handleInputChange = (e) => {
+        const { name } = e.target;
+        if(formError && formError[name])
+        {
+            setFormError((prevErrors) => ({
+                ...prevErrors,
+                [name]: null 
+            }));
+        }
+       
+    };
+
+  
 
 
 
@@ -48,41 +84,44 @@ function LeaveApplication({method,loaderData}) {
             <Form method = {method} className={classes.form}>  
                 <h3 className={classes.formTitle}>Leave Application</h3>  
                 <Input 
-                    label="EmployeeId"
                     type="number"
                     id="employeeId"
                     name="employeeId" 
                     className={classes.input} 
                     value = {loaderData && loaderData.empId} 
                     readOnly
+                    hidden
                 />
                 
                 <Input 
-                    label="EmployeeName"
                     type="text"
                     id="employeeName"
                     name="employeeName"  
                     value = {loaderData && loaderData.empName}
                     className={classes.input}  
                     readOnly
+                    hidden
                 />
                 <Input 
                     label="Phone Number"
-                    type="text"
+                    type="tel"
                     id="phoneNumber"
                     name="phoneNumber"  
                     className={classes.input} 
+                    onChange = {handleInputChange}
                     defaultValue = {(loaderData && loaderData.phoneNumber)&& loaderData.phoneNumber} 
                 />
+                {formError && formError.phoneNumber && <p className={classes.error}>{formError.phoneNumber}</p>}
                 
                 <Input 
-                    label="Manager"
                     type="text"
                     id="manager"
                     name="manager"  
                     className={classes.input}  
+                    onChange = {handleInputChange}
                     value = {loaderData && loaderData.managerName}
                     readOnly
+                    hidden
                 />
                     <Input 
                     type="number"
@@ -96,7 +135,7 @@ function LeaveApplication({method,loaderData}) {
                 
                 <Input 
                     label="From"
-                    type="datetime-local"
+                    type="date"
                     id="from-date"
                     name="fromDate"  
                     className={classes.input} 
@@ -104,10 +143,12 @@ function LeaveApplication({method,loaderData}) {
                     onChange = {calculateTotalDays}
                     defaultValue = {(loaderData && loaderData.fromDate) && loaderData.fromDate}
                 />
+                {formError && formError.fromDate && <p className={classes.error}>{formError.fromDate}</p>}
+
                 
                 <Input 
                     label="To"
-                    type="datetime-local"
+                    type="date"
                     id="to-date"
                     name="toDate" 
                     className={classes.input}
@@ -116,6 +157,8 @@ function LeaveApplication({method,loaderData}) {
                     defaultValue = {(loaderData && loaderData.toDate) && loaderData.toDate}
 
                 />
+                {formError && formError.toDate && <p className={classes.error}>{formError.toDate}</p>}
+
                 
                 <Input 
                     label="TotalDays"
@@ -128,20 +171,24 @@ function LeaveApplication({method,loaderData}) {
                     
                 />
                 
+                
                 <Input
                     label="Reason"
                     type="text"
                     id="reason"
-                    name="reason"  
+                    name="reason" 
+                    onChange = {handleInputChange} 
                     textarea
                     className={classes.input}  
                     defaultValue = {(loaderData && loaderData.reason) && loaderData.reason}
 
                 />
+                {formError && formError.reason && <p className={classes.error}>{formError.reason}</p>}
+
                 
                 <button type="submit" className={classes.submitButton}>{method === "PUT" ? "Update" : "Apply"}</button> 
-                <button type = "button">Cancel</button>
-              {formError && <p className={classes.error}>{formError}</p>}
+                <button type = "button" className={classes.submitButton} onClick={() => window.history.back()} >Cancel</button>
+              {formError && formError.other&&<p className={classes.error}>{formError.other}</p>}
             </Form>
         </div>
     );
@@ -165,6 +212,11 @@ export async function action({request,params})
         Reason : fd.get('reason')
     }
 
+    const errors = leaveApplicationValidation(leaveApplication);
+    if(Object.keys(errors).length > 0)
+        {
+          return {isSuccess : false, errors : {...errors}};
+        }
     try
     {
         const response = await modifyLeave(leaveApplication,request.method);

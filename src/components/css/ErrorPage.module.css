@@ -1,0 +1,63 @@
+.errorPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  .errorTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+  
+  .errorMessage {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #f70a0a;
+  }
+  
+  .errorDetails {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .errorActions {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .homeLink {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #080808;
+    margin-right: 20px;
+  }
+  
+  .homeLink:hover {
+    text-decoration: underline;
+  }
+  
+  .goBackButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #0a0a0a;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .goBackButton:hover {
+    background-color: #3b3b3b;
+  }
+  

@@ -1,4 +1,4 @@
-import { getLeave } from "../Http/leave";
+import { getLeave } from "../../Http/leave";
 import LeaveApplication from "./LeaveApplication";
 import { useLoaderData } from "react-router-dom";
 

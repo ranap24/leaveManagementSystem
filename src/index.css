@@ -1,69 +1,68 @@
-/* index.css */
-
 /* General Body */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f8f8;
-    color: #333;
-  }
-  
-  /* Container for the app */
-  .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background-color: #f1f1f1;
-  }
-  
-  /* Center content */
-  .center-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 3rem;
-  }
-  
-  /* Forms */
-  form {
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  form h3 {
-    color: #4CAF50;
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  form input {
-    width: 100%;
-    padding: 0.8rem;
-    margin: 1rem 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  form button {
-    width: 100%;
-    padding: 0.8rem;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  form button:hover {
-    background-color: #45a049;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff; /* White background for a clean look */
+  color: #000000; /* Black text for contrast */
+}
+
+/* Container for the app */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4; /* Light gray for a soft contrast */
+}
+
+/* Center content */
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+/* Forms */
+form {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff; /* White form background */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+form h3 {
+  color: #000000; /* Black for headings */
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 1rem 0;
+  border-radius: 5px;
+  border: 1px solid #000000; /* Black border for input fields */
+  background-color: #ffffff; /* White background */
+  color: #000000; /* Black text */
+}
+
+form input:focus {
+  border-color: #333333; /* Darker border on focus */
+  outline: none;
+}
+
+form button {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 5px;
+  background-color: #000000; /* Black button background */
+  border: none;
+  color: #ffffff;
+}

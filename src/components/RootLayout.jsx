@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import MainNavigation from "./Header";
 
-function RootLayout({isLoggedIn,isInRole}) {
+function RootLayout({ isLoggedIn, isInRole,handleLogout }) {
   return (
     <>
-      <MainNavigation isLoggedIn = {isLoggedIn} isInRole={isInRole} />
-      <Outlet />
+      <MainNavigation isLoggedIn={isLoggedIn} isInRole={isInRole} handleLogout = {handleLogout} />
+      <Outlet/>
     </>
   );
 }

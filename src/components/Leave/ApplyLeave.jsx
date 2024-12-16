@@ -1,6 +1,6 @@
 import LeaveApplication from "./LeaveApplication";
 import { useLoaderData } from "react-router-dom";
-import { getManagerForUser } from "../Http/auth";
+import { getManagerForUser } from "../../Http/auth";
 
 
 function ApplyLeave()
@@ -22,8 +22,8 @@ export async function  loader({request,params}) {
         const result = await getManagerForUser(Number(tokenPayload.sub))  
         const response = await result.json();
         const postloaderObject = {
-            empId : Number(tokenPayload.sub),
-            empName : tokenPayload.name,
+            empId : response.data.empId,
+            empName : response.data.empName,
             managerId : response.data.managerId,
             managerName : response.data.managerName
         }
