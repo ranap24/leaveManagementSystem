@@ -8,15 +8,18 @@ import Register, {
 import RootLayout from "./components/RootLayout";
 import { useEffect, useState } from "react";
 import HomePage from "./components/HomePage";
-import ApplyLeave, { loader as formLoader } from "./components/Leave/ApplyLeave";
+import ApplyLeave, {
+  loader as formLoader,
+} from "./components/Leave/ApplyLeave";
 import EditLeave, { loader as editLoader } from "./components/Leave/EditLeave";
 import ListLeave, { loader as listLoader } from "./components/Leave/ListLeave";
 import { action as formAction } from "./components/Leave/LeaveApplication";
-import ManageUsers, { loader as userLoader } from "./components/Employee/ManageUsers";
+import ManageUsers, {
+  loader as userLoader,
+} from "./components/Employee/ManageUsers";
 import ManagerLeaves, {
   loader as managerLeavesLoader,
 } from "./components/Leave/ManagerLeaves";
-
 import { Toaster } from "react-hot-toast";
 import ErrorPage from "./components/ErrorPage";
 
@@ -50,10 +53,14 @@ function App() {
       path: "/",
       element: (
         <div className="App">
-          <RootLayout isLoggedIn={isLoggedIn} isInRole={isInRole} handleLogout={handleLogout} />
+          <RootLayout
+            isLoggedIn={isLoggedIn}
+            isInRole={isInRole}
+            handleLogout={handleLogout}
+          />
         </div>
       ),
-      errorElement: <ErrorPage/>,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/",
@@ -100,13 +107,13 @@ function App() {
         },
         {
           path: "/editLeave/:leaveId",
-          element: <EditLeave />,
+          element: <EditLeave isLoggedIn={isLoggedIn} />,
           loader: editLoader,
           action: formAction,
         },
         {
           path: "/managerLeaves",
-          element: <ManagerLeaves />,
+          element: <ManagerLeaves isLoggedIn = {isLoggedIn}/>,
           loader: managerLeavesLoader,
         },
       ],
@@ -116,7 +123,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <Toaster position="top-right"/>
+      <Toaster position="top-right" />
     </>
   );
 }

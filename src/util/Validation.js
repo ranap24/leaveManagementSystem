@@ -29,12 +29,6 @@ function isValidEmail(email) {
     return phoneRegex.test(phoneNumber);
   }
   
-  function hasLength(value, minLength) {
-    if (value.length < minLength) {
-      return false;
-    }
-    return true;
-  }
   
   function isValidDesignation(designation) {
     const designationRegex = /^[a-zA-Z\s.-]{3,50}$/;
@@ -165,7 +159,7 @@ function isValidEmail(email) {
         errors.password = "Password is Required";
       } else if (!isValidPassword(credentials.Password)) {
         errors.password =
-          "Password must be at least 6 characters long";
+          "Password must be at least 6 characters long, contain at least one uppercase letter, and one special character.";
       }
      return errors;
      
@@ -197,7 +191,7 @@ function isValidEmail(email) {
  
       if (isEmpty(applicationDetails.To_Date)) {
           errors.toDate = "To date is required";
-      } else if (toDate <= fromDate) {
+      } else if (toDate < fromDate) {
           errors.toDate = "To date must be later than From date";
       }
 

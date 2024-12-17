@@ -33,13 +33,13 @@ function MainNavigation({ isLoggedIn, isInRole, handleLogout }) {
     <div className={classes.navContainer}>
       <nav className={classes.nav}>
         <div className={classes.navLeft}>
-          <div className={classes.logo} >
+          <div className={classes.logo}>
             <div className={classes.iconPlaceholder} onClick={toggleSidebar}>
               <FaWpforms />
             </div>
             <span className={classes.title}>LMS</span>
           </div>
-           &nbsp;
+          &nbsp;
           {!isSidebarOpen && (
             <>
               <Link to="/" className={classes.navLink}>
@@ -53,7 +53,9 @@ function MainNavigation({ isLoggedIn, isInRole, handleLogout }) {
                   <Link to="/leaveList" className={classes.navLink}>
                     View Leaves
                   </Link>
-                    <Link to = "/managerLeaves" className={classes.navLink}>Approve/Reject</Link>
+                  <Link to="/managerLeaves" className={classes.navLink}>
+                    Approve/Reject
+                  </Link>
                 </>
               )}
               {isLoggedIn && isInRole === "ADMIN" && (
@@ -64,38 +66,44 @@ function MainNavigation({ isLoggedIn, isInRole, handleLogout }) {
                   <Link to="/listUsers" className={classes.navLink}>
                     View Users
                   </Link>
-                  <Link to = "/managerLeaves" className={classes.navLink}>Approve/Reject</Link>
+                  <Link to="/managerLeaves" className={classes.navLink}>
+                    Approve/Reject
+                  </Link>
                 </>
               )}
             </>
           )}
         </div>
 
-        { !isSidebarOpen &&    <div className={classes.navRight}>
-          {!isLoggedIn && (
-            <Link to="/login" className={classes.navLink}>
-              Login
-            </Link>
-          )}
+        {!isSidebarOpen && (
+          <div className={classes.navRight}>
+            {!isLoggedIn && (
+              <Link to="/login" className={classes.navLink}>
+                Login
+              </Link>
+            )}
 
-          {isLoggedIn && (
-            <div 
-              className={classes.profileCard} 
-              onMouseEnter={showDropdown} 
-              onMouseLeave={hideDropdown} 
-            >
-              <div className={classes.profileInfo}>
-                <span className={classes.greeting}>Hello, {userName}</span>
-                <FaUserCircle className={classes.userIcon} />
-              </div>
-              <div 
-                className={`${classes.dropdownContent} ${isDropdownVisible ? classes.visible : ''}`}
+            {isLoggedIn && (
+              <div
+                className={classes.profileCard}
+                onMouseEnter={showDropdown}
+                onMouseLeave={hideDropdown}
               >
-                <LogoutButton handleLogout={handleLogout}/>
+                <div className={classes.profileInfo}>
+                  <span className={classes.greeting}>Hello, {userName}</span>
+                  <FaUserCircle className={classes.userIcon} />
+                </div>
+                <div
+                  className={`${classes.dropdownContent} ${
+                    isDropdownVisible ? classes.visible : ""
+                  }`}
+                >
+                  <LogoutButton handleLogout={handleLogout} />
+                </div>
               </div>
-            </div>
-          )}
-        </div>}
+            )}
+          </div>
+        )}
       </nav>
 
       {isSidebarOpen && (
@@ -111,30 +119,53 @@ function MainNavigation({ isLoggedIn, isInRole, handleLogout }) {
           </Link>
           {isLoggedIn && isInRole === "USER" && (
             <>
-              <Link to="/applyLeave" className={classes.sidebarLink} onClick={closeSidebar}>
+              <Link
+                to="/applyLeave"
+                className={classes.sidebarLink}
+                onClick={closeSidebar}
+              >
                 Apply Leave
               </Link>
-              <Link to="/leaveList" className={classes.sidebarLink} onClick={closeSidebar}>
+              <Link
+                to="/leaveList"
+                className={classes.sidebarLink}
+                onClick={closeSidebar}
+              >
                 View Leaves
               </Link>
-              <Link to = "/managerLeaves" className={classes.navLink}>Approve/Reject</Link>
-              </>
-          )}
-              {isLoggedIn && isInRole === "ADMIN" && (
-            <>
-              <Link to="/register" className={classes.sidebarLink} onClick={closeSidebar}>
-                Add User
+              <Link to="/managerLeaves" className={classes.navLink}>
+                Approve/Reject
               </Link>
-              <Link to="/listUsers" className={classes.sidebarLink} onClick={closeSidebar}>
-                View Users
-              </Link>
-              <Link to = "/managerLeaves" className={classes.navLink}>Approve/Reject</Link>
             </>
           )}
-            
-         
+          {isLoggedIn && isInRole === "ADMIN" && (
+            <>
+              <Link
+                to="/register"
+                className={classes.sidebarLink}
+                onClick={closeSidebar}
+              >
+                Add User
+              </Link>
+              <Link
+                to="/listUsers"
+                className={classes.sidebarLink}
+                onClick={closeSidebar}
+              >
+                View Users
+              </Link>
+              <Link to="/managerLeaves" className={classes.navLink}>
+                Approve/Reject
+              </Link>
+            </>
+          )}
+
           {!isLoggedIn && (
-            <Link to="/login" className={classes.sidebarLink} onClick={closeSidebar}>
+            <Link
+              to="/login"
+              className={classes.sidebarLink}
+              onClick={closeSidebar}
+            >
               Login
             </Link>
           )}

@@ -1,41 +1,40 @@
 import DataTable from "react-data-table-component";
-import { getAllLeaves } from "../../Http/leave";
-import { useLoaderData, Link } from "react-router-dom";
+import { getAllLeaves } from "../../http/leave";
+import { useLoaderData, Link,Navigate} from "react-router-dom";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import DeleteLeave from "./DeleteLeave";
 import classes from "../css/listLeave.module.css";
-import { approved, rejected,pending } from "../../util/StaticDetails";
+import { approved, rejected, pending } from "../../util/StaticDetails";
 import { Past15Days } from "../../util/Helper";
 
 const columns = [
-
   {
     name: "ManagerName",
     selector: (row) => row.managerName,
     sortable: true,
-    className: classes["manager-column"], 
-    visible : true
+    className: classes["manager-column"],
+    visible: true,
   },
   {
     name: "FromDate",
     selector: (row) => row.from_Date,
     sortable: true,
-    className: classes["fromDate-column"], 
-    visible : true
+    className: classes["fromDate-column"],
+    visible: true,
   },
   {
     name: "ToDate",
     selector: (row) => row.to_Date,
     sortable: true,
     className: classes["toDate-column"],
-    visible : true 
+    visible: true,
   },
   {
     name: "TotalDays",
     selector: (row) => row.totalDays,
     sortable: true,
-    visible : true
+    visible: true,
   },
   {
     name: "Status",
@@ -53,20 +52,22 @@ const columns = [
       } else if (statusText.toLowerCase() === pending) {
         badgeClass = `${badgeClass} ${classes["pending-badge"]}`;
       }
-  
+
       return <span className={badgeClass}>{statusText}</span>;
     },
   },
-  
+
   {
     name: "Reason",
     selector: (row) => row.reason,
-    visible : true
+    visible: true,
   },
   {
     name: "Actions",
     cell: (row) => {
-      const hideButtons = Past15Days(row.to_Date) && (row.status === approved || row.status === rejected);
+      const hideButtons =
+        Past15Days(row.to_Date) &&
+        (row.status === approved || row.status === rejected);
       return (
         <div className={classes["actions-buttons"]}>
           {!hideButtons && (
@@ -86,99 +87,118 @@ const columns = [
   },
 ];
 
-function ListLeave() {
+function ListLeave({isLoggedIn}) {
   const [searchElement, setSearchElement] = useState("");
   const loaderData = useLoaderData();
   const [filteredData, setFilteredData] = useState(loaderData.data);
 
-   useEffect(() => {
-     if (loaderData.isSuccess) {
-       const searchList = loaderData.data.filter((employee) => {
-         return columns.some((column) => {
-           if (column.visible) {
-             const value = column.selector(employee);
-             return String(value).toLowerCase().includes(searchElement.toLowerCase());
-           }
-           return false;
-         });
-       });
-       setFilteredData(searchList);
-     }
-   }, [searchElement, loaderData.data]);
- 
-   const handleSearch = (event) => {
-     setSearchElement(event.target.value);
-   };
+  useEffect(() => {
+    if (loaderData.isSuccess) {
+      const searchList = loaderData.data.filter((employee) => {
+        return columns.some((column) => {
+          if (column.visible) {
+            const value = column.selector(employee);
+            return String(value)
+              .toLowerCase()
+              .includes(searchElement.toLowerCase());
+          }
+          return false;
+        });
+      });
+      setFilteredData(searchList);
+    }
+  }, [searchElement, loaderData.data, loaderData.isSuccess]);
 
-   let approvedLeaves;
-   let rejectedLeaves;
-   let pendingLeaves;
+  const handleSearch = (event) => {
+    setSearchElement(event.target.value);
+  };
 
-   if(loaderData.isSuccess)
-   {
-     approvedLeaves = filteredData.filter(leave => leave.status.toLowerCase() === approved);
-     rejectedLeaves = filteredData.filter(leave => leave.status.toLowerCase() === rejected);
-     pendingLeaves = filteredData.filter(leave => leave.status.toLowerCase() === pending);
-   }
+  let approvedLeaves;
+  let rejectedLeaves;
+  let pendingLeaves;
 
+  if (loaderData.isSuccess) {
+    approvedLeaves = filteredData.filter(
+      (leave) => leave.status.toLowerCase() === approved
+    );
+    rejectedLeaves = filteredData.filter(
+      (leave) => leave.status.toLowerCase() === rejected
+    );
+    pendingLeaves = filteredData.filter(
+      (leave) => leave.status.toLowerCase() === pending
+    );
+  }
 
-  return (
-    <div className={classes["table-container"]}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchElement}
-        onChange={handleSearch}
-        className={classes["search-input"]}
-      />
-
-      {loaderData.isSuccess ? (
-        <>
-          {approvedLeaves && approvedLeaves.length > 0 && (
-            <div className={classes["approved-section"]}>
-              <h2>Approved Leave Requests</h2>
-              <DataTable
-                columns={columns}
-                data={approvedLeaves}
-                className={classes["react-data-table"]}
-              />
-            </div>
-          )}
-
-          {pendingLeaves && pendingLeaves.length > 0 && (
-            <div className={classes["pending-section"]}>
-              <h2>Pending Leave Requests</h2>
-              <DataTable
-                columns={columns}
-                data={pendingLeaves}
-                className={classes["react-data-table"]}
-              />
-            </div>
-          )}
-
-          {rejectedLeaves && rejectedLeaves.length > 0 && (
-            <div className={classes["rejected-section"]}>
-              <h2>Rejected Leave Requests</h2>
-              <DataTable
-                columns={columns}
-                data={rejectedLeaves}
-                className={classes["react-data-table"]}
-              />
-            </div>
-          )}
-
-          {approvedLeaves.length === 0 && pendingLeaves.length === 0 && rejectedLeaves.length === 0 && (
-            <p className={classes["no-results"]}>No leave requests available.</p>
-          )}
-        </>
-      ) : (
-        <p className={classes["error-message"]}>{loaderData.message}</p>
-      )}
-    </div>
-  );
+  if(isLoggedIn)
+  {
+    return (
+      <div className={classes["table-container"]}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchElement}
+          onChange={handleSearch}
+          className={classes["search-input"]}
+        />
+  
+        {loaderData.isSuccess ? (
+          <>
+            {approvedLeaves && approvedLeaves.length > 0 && (
+              <div className={classes["approved-section"]}>
+                <h2>Approved Leave Requests</h2>
+                <DataTable
+                  columns={columns}
+                  data={approvedLeaves}
+                  className={classes["react-data-table"]}
+                />
+              </div>
+            )}
+  
+            {pendingLeaves && pendingLeaves.length > 0 && (
+              <div className={classes["pending-section"]}>
+                <h2>Pending Leave Requests</h2>
+                <DataTable
+                  columns={columns}
+                  data={pendingLeaves}
+                  className={classes["react-data-table"]}
+                />
+              </div>
+            )}
+  
+            {rejectedLeaves && rejectedLeaves.length > 0 && (
+              <div className={classes["rejected-section"]}>
+                <h2>Rejected Leave Requests</h2>
+                <DataTable
+                  columns={columns}
+                  data={rejectedLeaves}
+                  className={classes["react-data-table"]}
+                />
+              </div>
+            )}
+  
+            {approvedLeaves.length === 0 &&
+              pendingLeaves.length === 0 &&
+              rejectedLeaves.length === 0 && (
+                <p className={classes["no-results"]}>
+                  No leave requests available.
+                </p>
+              )}
+          </>
+        ) : (
+          <p className={classes["error-message"]}>{loaderData.message}</p>
+        )}
+      </div>
+    );
+  }
+  else 
+  {
+    return <Navigate to="/login" replace />;
+  }
+  
 }
 
-export async function loader({ request, params }) {
+
+export async function loader() {
   const Token = localStorage.getItem("Token");
   if (Token) {
     const tokenArray = Token.split(".");

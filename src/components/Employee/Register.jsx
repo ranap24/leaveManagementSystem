@@ -1,5 +1,11 @@
 import classes from "../css/form.module.css";
-import { auth, getRoles, getManagers, getEmployee, updateEmployee } from "../../Http/auth";
+import {
+  auth,
+  getRoles,
+  getManagers,
+  getEmployee,
+  updateEmployee,
+} from "../../http/auth";
 import { useState, useEffect } from "react";
 import {
   Form,
@@ -8,12 +14,10 @@ import {
   useLoaderData,
   useNavigate,
   useRouteError,
-  Link
 } from "react-router-dom";
 import Input from "../Input";
 import { RegisterFormValidation } from "../../util/Validation";
 import toast from "react-hot-toast";
-
 
 function Register({ isLoggedIn, isInRole, method }) {
   const [formError, setFormError] = useState({});
@@ -22,7 +26,6 @@ function Register({ isLoggedIn, isInRole, method }) {
   const response = useActionData();
   const error = useRouteError();
 
-  // Handling response and error updates
   useEffect(() => {
     if (response) {
       if (response.isSuccess) {
@@ -39,23 +42,26 @@ function Register({ isLoggedIn, isInRole, method }) {
     if (error) {
       toast.error(error.message);
     }
-  }, [response, error]);
+  }, [response, error, navigate]);
 
   const handleInputChange = (e) => {
     const { name } = e.target;
-    if(formError && formError[name])
-        {
-            setFormError((prevErrors) => ({
-                ...prevErrors,
-                [name]: null 
-            }));
-        }
-};
+    if (formError && formError[name]) {
+      setFormError((prevErrors) => ({
+        ...prevErrors,
+        [name]: null,
+      }));
+    }
+  };
 
   if (isLoggedIn && isInRole === "ADMIN") {
     return (
       <div className={classes.formContainer}>
-        <Form method={method || "POST"} className={classes.form} key = {method || "POST"}>
+        <Form
+          method={method || "POST"}
+          className={classes.form}
+          key={method || "POST"}
+        >
           <h2 className={classes.formTitle}>
             {method === "PUT" ? "Update User" : "Register New User"}
           </h2>
@@ -75,7 +81,7 @@ function Register({ isLoggedIn, isInRole, method }) {
             type="text"
             id="name"
             name="name"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.name || ""}
           />
@@ -86,33 +92,39 @@ function Register({ isLoggedIn, isInRole, method }) {
             type="email"
             id="email"
             name="email"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.email || ""}
           />
-          {formError?.email && <p className={classes.error}>{formError.email}</p>}
+          {formError?.email && (
+            <p className={classes.error}>{formError.email}</p>
+          )}
 
           <Input
             label="Date-of-Birth:"
             type="date"
             id="birthDate"
             name="birthDate"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.birthDate || ""}
           />
-          {formError?.birthDate && <p className={classes.error}>{formError.birthDate}</p>}
+          {formError?.birthDate && (
+            <p className={classes.error}>{formError.birthDate}</p>
+          )}
 
           <Input
             label="Phone Number:"
             type="tel"
             id="phoneNumber"
             name="phoneNumber"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.phoneNumber || ""}
           />
-          {formError?.phoneNumber && <p className={classes.error}>{formError.phoneNumber}</p>}
+          {formError?.phoneNumber && (
+            <p className={classes.error}>{formError.phoneNumber}</p>
+          )}
 
           <div className={classes.radioContainer}>
             <label>Gender:</label>
@@ -123,7 +135,7 @@ function Register({ isLoggedIn, isInRole, method }) {
                   id="genderMale"
                   name="gender"
                   value="male"
-                  onChange = {handleInputChange}
+                  onChange={handleInputChange}
                   defaultChecked={data?.gender === "male"}
                 />
                 Male
@@ -134,36 +146,42 @@ function Register({ isLoggedIn, isInRole, method }) {
                   id="genderFemale"
                   name="gender"
                   value="female"
-                  onChange = {handleInputChange}
+                  onChange={handleInputChange}
                   defaultChecked={data?.gender === "female"}
                 />
                 Female
               </label>
             </div>
           </div>
-          {formError?.gender && <p className={classes.error}>{formError.gender}</p>}
+          {formError?.gender && (
+            <p className={classes.error}>{formError.gender}</p>
+          )}
 
           <Input
             label="Started-From:"
             type="date"
             id="startedFrom"
             name="startedFrom"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.started_From || ""}
           />
-          {formError?.startedFrom && <p className={classes.error}>{formError.startedFrom}</p>}
+          {formError?.startedFrom && (
+            <p className={classes.error}>{formError.startedFrom}</p>
+          )}
 
           <Input
             label="Designation:"
             type="text"
             id="designation"
             name="designation"
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
             className={classes.input}
             defaultValue={data?.designation || ""}
           />
-          {formError?.designation && <p className={classes.error}>{formError.designation}</p>}
+          {formError?.designation && (
+            <p className={classes.error}>{formError.designation}</p>
+          )}
 
           <div className={classes.selectContainer}>
             <label htmlFor="manager" className={classes.label}>
@@ -171,7 +189,7 @@ function Register({ isLoggedIn, isInRole, method }) {
             </label>
             <select
               name="manager"
-              onChange = {handleInputChange}
+              onChange={handleInputChange}
               className={classes.select}
               defaultValue={data?.managerId || ""}
             >
@@ -183,13 +201,20 @@ function Register({ isLoggedIn, isInRole, method }) {
               ))}
             </select>
           </div>
-          {formError?.manager && <p className={classes.error}>{formError.manager}</p>}
+          {formError?.manager && (
+            <p className={classes.error}>{formError.manager}</p>
+          )}
 
           <div className={classes.selectContainer}>
             <label htmlFor="role" className={classes.label}>
               Role:
             </label>
-            <select name="role" className={classes.select} defaultValue={data?.role || ""} onChange = {handleInputChange}>
+            <select
+              name="role"
+              className={classes.select}
+              defaultValue={data?.role || ""}
+              onChange={handleInputChange}
+            >
               <option value="">Select Role</option>
               {roles?.data.map((role) => (
                 <option key={role} value={role}>
@@ -207,39 +232,52 @@ function Register({ isLoggedIn, isInRole, method }) {
                 type="password"
                 id="password"
                 name="password"
-                onChange = {handleInputChange}
+                onChange={handleInputChange}
                 className={classes.input}
               />
-              {formError?.password && <p className={classes.error}>{formError.password}</p>}
+              {formError?.password && (
+                <p className={classes.error}>{formError.password}</p>
+              )}
 
               <Input
                 label="Confirm Password"
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                onChange = {handleInputChange}
+                onChange={handleInputChange}
                 className={classes.input}
               />
-              {formError?.confirmPassword && <p className={classes.error}>{formError.confirmPassword}</p>}
+              {formError?.confirmPassword && (
+                <p className={classes.error}>{formError.confirmPassword}</p>
+              )}
             </>
           )}
 
           <button type="submit" className={classes.submitButton}>
             {method === "PUT" ? "Update" : "Register"}
           </button>
-          <button type="button" className={classes.submitButton} onClick={()=>window.history.back()}>
+          <button
+            type="button"
+            className={classes.submitButton}
+            onClick={() => window.history.back()}
+          >
             cancel
           </button>
-          
 
-          {formError?.other && <p className={classes.error}>{formError.other}</p>}
+          {formError?.other && (
+            <p className={classes.error}>{formError.other}</p>
+          )}
         </Form>
       </div>
     );
   }
 
   if (isLoggedIn && isInRole === "USER") {
-    return <h4 className={classes.noAccess}>You don't have access to this Page</h4>;
+    return (
+      <h4 className={classes.noAccess}>
+        You don&apos;t have access to this Page
+      </h4>
+    );
   }
 
   return <Navigate to="/login" replace />;
@@ -247,50 +285,42 @@ function Register({ isLoggedIn, isInRole, method }) {
 
 export default Register;
 
-
-export async function action({ request, params }) {
+export async function action({ request }) {
   const fd = await request.formData();
-    const credentials = {
-      EmployeeName: fd.get("name"),
-      EmailAddress: fd.get("email"),
-      BirthDate: fd.get("birthDate"),
-      PhoneNumber: fd.get("phoneNumber"),
-      ManagerId: Number(fd.get("manager")),
-      Gender : fd.get("gender"),
-      Designation: fd.get("designation"),
-      Started_From: fd.get("startedFrom"),
-      Role: String(fd.get("role")),
-    };
+  const credentials = {
+    EmployeeName: fd.get("name"),
+    EmailAddress: fd.get("email"),
+    BirthDate: fd.get("birthDate"),
+    PhoneNumber: fd.get("phoneNumber"),
+    ManagerId: Number(fd.get("manager")),
+    Gender: fd.get("gender"),
+    Designation: fd.get("designation"),
+    Started_From: fd.get("startedFrom"),
+    Role: String(fd.get("role")),
+  };
 
-    if(request.method === "POST")
-    {
-      credentials.Password = String(fd.get("password"));
-      credentials.ConfirmPassword = String(fd.get("confirmPassword"));
-    }
+  if (request.method === "POST") {
+    credentials.Password = String(fd.get("password"));
+    credentials.ConfirmPassword = String(fd.get("confirmPassword"));
+  }
 
-    if(request.method === "PUT")
-    {
-      credentials.EmployeeId = fd.get("employeeId");
-    }
-  
-    const errors = RegisterFormValidation(credentials);
-    if(Object.keys(errors).length > 0)
-    {
-      return {isSuccess : false, errors : {...errors}};
-    }
-  
-  if(request.method === "POST")
-  {
- 
+  if (request.method === "PUT") {
+    credentials.EmployeeId = fd.get("employeeId");
+  }
+
+  const errors = RegisterFormValidation(credentials);
+  if (Object.keys(errors).length > 0) {
+    return { isSuccess: false, errors: { ...errors } };
+  }
+
+  if (request.method === "POST") {
     try {
       const response = await auth(credentials, "register");
       return response;
     } catch (err) {
       throw new Error(err.message);
     }
-  }
-  else
-  {
+  } else {
     try {
       const response = await updateEmployee(credentials);
       return response;
@@ -300,7 +330,7 @@ export async function action({ request, params }) {
   }
 }
 
-export async function loader({ request, params }) {
+export async function loader({ params }) {
   let loadObject = {
     roles: {},
     managers: {},

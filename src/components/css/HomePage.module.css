@@ -5,7 +5,14 @@
   border-radius: 8px;
   margin: 2rem auto;
   max-width: 1200px;
+  display: flex; /* Added Flexbox */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
 }
+
+
+
 
 .homepage-heading {
   font-size: 2.5rem;
@@ -75,16 +82,18 @@
 
 .homepage-container button {
   width: 100%;
+  max-width: 200px; /* Limit max width */
   padding: 1rem;
   margin-top: 1rem;
-  background-color: #e7f0e8;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 }
 
 .homepage-container button:hover {
-  background-color: #ebf1eb;
+  background-color: #363636;
 }
 

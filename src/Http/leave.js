@@ -6,7 +6,7 @@ const Token = localStorage.getItem('Token')
   try{
     if(Token)
         {
-          const response = await fetch('https://localhost:7001/api/LeaveApplication',{
+          const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication',{
               method : method,
               body : JSON.stringify(leaveApplication),
               headers : {
@@ -35,7 +35,7 @@ const Token = localStorage.getItem('Token')
     try{
         if(Token)
             {
-              const response = await fetch('https://localhost:7001/api/LeaveApplication/GetAll/'+empId,{
+              const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication/GetAll/'+empId,{
                   headers : {
                       "Authorization" : "Bearer "+Token
                   }
@@ -60,7 +60,7 @@ const Token = localStorage.getItem('Token')
     try{
         if(Token)
             {
-              const response = await fetch('https://localhost:7001/api/LeaveApplication/GetAllManagerLeaves/'+managerId,{
+              const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication/GetAllManagerLeaves/'+managerId,{
                   headers : {
                       "Authorization" : "Bearer "+Token
                   }
@@ -85,7 +85,7 @@ const Token = localStorage.getItem('Token')
     try{
         if(Token)
             {
-              const response = await fetch('https://localhost:7001/api/LeaveApplication/delete/'+leaveApplicationId,{
+              const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication/delete/'+leaveApplicationId,{
                   method : "DELETE",
                   headers : {
                       "Authorization" : "Bearer "+Token
@@ -111,7 +111,7 @@ const Token = localStorage.getItem('Token')
     try{
         if(Token)
             {
-              const response = await fetch('https://localhost:7001/api/LeaveApplication/'+leaveApplicationId,{
+              const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication/'+leaveApplicationId,{
                   headers : {
                       "Authorization" : "Bearer "+Token,
                       "Content-Type" : "application/json"
@@ -137,7 +137,7 @@ const Token = localStorage.getItem('Token')
   try{
     if(Token)
         {
-          const response = await fetch('https://localhost:7001/api/LeaveApplication/updateLeaveStatus',{
+          const response = await fetch('https://lms-1leavemanagementapi20241217153708.azurewebsites.net/api/LeaveApplication/updateLeaveStatus',{
               method : "PUT",
               body : JSON.stringify(obj),
               headers : {

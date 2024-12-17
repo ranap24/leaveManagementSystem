@@ -1,5 +1,5 @@
 import DataTable from "react-data-table-component";
-import { getEmployeesWithManager } from "../../Http/auth";
+import { getEmployeesWithManager } from "../../http/auth";
 import { useLoaderData, Link } from "react-router-dom";
 import classes from "../css/listLeave.module.css";
 import { useState, useEffect } from "react";
@@ -21,14 +21,14 @@ const columns = [
     selector: (row) => row.email,
     sortable: true,
     className: classes["fromDate-column"],
-    wrap : true
+    wrap: true,
   },
   {
     name: "Date-of-Birth",
     selector: (row) => row.birthDate,
     sortable: true,
     className: classes["toDate-column"],
-    wrap : true
+    wrap: true,
   },
   {
     name: "Phone",
@@ -57,13 +57,13 @@ const columns = [
         <button>
           <Link to={`/editUser/${row.id}`}>Edit</Link>
         </button>
-       <DeleteUserButton  empId = {row.id}/>
+        <DeleteUserButton empId={row.id} />
       </div>
     ),
   },
 ];
 
-function ManageUsers() {
+function ManageUsers({isLoggedIn,isInRole}) {
   const [searchElement, setSearchElement] = useState("");
   const loaderData = useLoaderData();
   const [filteredData, setFilteredData] = useState(loaderData.data);
@@ -77,41 +77,57 @@ function ManageUsers() {
       });
       setFilteredData(searchList);
     }
-  }, [searchElement, loaderData.data]);
+  }, [searchElement, loaderData.data, loaderData.isSuccess]);
 
   const handleSearch = (event) => {
     setSearchElement(event.target.value);
   };
 
-  return (
-    <div className={classes["table-container"]}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchElement}
-        onChange={handleSearch}
-        className={classes["search-input"]}
-      />
-      {loaderData.isSuccess ? (
-        filteredData && filteredData.length > 0 ? (
-          <DataTable
-            columns={columns}
-            data={filteredData}
-            className={classes["react-data-table"]}
-          />
+  if(isLoggedIn && isInRole === "ADMIN")
+  {
+    return (
+      <div className={classes["table-container"]}>
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchElement}
+          onChange={handleSearch}
+          className={classes["search-input"]}
+        />
+        {loaderData.isSuccess ? (
+          filteredData && filteredData.length > 0 ? (
+            <DataTable
+              columns={columns}
+              data={filteredData}
+              className={classes["react-data-table"]}
+            />
+          ) : (
+            <p className={classes["no-results"]}>
+              There are no Leave Requests matching your search criteria.
+            </p>
+          )
         ) : (
-          <p className={classes["no-results"]}>
-            There are no Leave Requests matching your search criteria.
-          </p>
-        )
-      ) : (
-        <p className={classes["error-message"]}>{loaderData.message}</p>
-      )}
-    </div>
-  );
+          <p className={classes["error-message"]}>{loaderData.message}</p>
+        )}
+      </div>
+    );
+  }
+
+  if(isLoggedIn && isInRole === "USER")
+  {
+     return (
+          <h4 className={classes.noAccess}>
+            You don&apos;t have access to this Page
+          </h4>
+        );
+  }
+
+  return <Navigate to="/login" replace />;
+
+  
 }
 
-export async function loader({ request, params }) {
+export async function loader() {
   try {
     const response = await getEmployeesWithManager();
     return response;

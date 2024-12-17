@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { UpdateLeaveStatus } from "../../Http/leave";
+import { UpdateLeaveStatus } from "../../http/leave";
 import { approved, rejected } from "../../util/StaticDetails";
-import {toast} from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 function UpdateStatus({ leaveApplicationId, status, managerId, children }) {
   const navigate = useNavigate();

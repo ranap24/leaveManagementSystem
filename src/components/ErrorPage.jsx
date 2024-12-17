@@ -1,12 +1,11 @@
-import React from 'react';
-import { useRouteError, Link } from 'react-router-dom';
-import classes from './css/ErrorPage.module.css'; 
+import { useRouteError, Link } from "react-router-dom";
+import classes from "./css/ErrorPage.module.css";
 
 function ErrorPage() {
   const error = useRouteError();
 
-  let errorMessage = 'Oops! Something went wrong.';
-  let errorDetails = '';
+  let errorMessage = "Oops! Something went wrong.";
+  let errorDetails = "";
 
   if (error) {
     if (error.status === 404) {
@@ -31,8 +30,15 @@ function ErrorPage() {
 
       <div className={classes.errorActions}>
         <p>Try going back or return to the home page.</p>
-        <Link to="/" className={classes.homeLink}>Go to Home</Link>
-        <button onClick={() => window.history.back()} className={classes.goBackButton}>Go Back</button>
+        <Link to="/" className={classes.homeLink}>
+          Go to Home
+        </Link>
+        <button
+          onClick={() => window.history.back()}
+          className={classes.goBackButton}
+        >
+          Go Back
+        </button>
       </div>
     </div>
   );

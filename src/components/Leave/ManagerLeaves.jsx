@@ -1,114 +1,110 @@
 import DataTable from "react-data-table-component";
-import { getAllManagerLeaves } from "../../Http/leave";
+import { getAllManagerLeaves } from "../../http/leave";
 import { useLoaderData } from "react-router-dom";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import classes from "../css/listLeave.module.css";
 import UpdateStatus from "./UpdateLeaveStatus";
-import { pending,approved, rejected } from "../../util/StaticDetails";
+import { pending, approved, rejected } from "../../util/StaticDetails";
 import { Past15Days } from "../../util/Helper";
 
 const columns = [
   {
     name: "EmployeeID",
     selector: (row) => row.empId,
-    visible : true
-
+    visible: true,
   },
   {
-    name : "EmployeeName",
-    selector : (row) => row.employee.name,
-    visible : true
+    name: "EmployeeName",
+    selector: (row) => row.employee.name,
+    visible: true,
   },
   {
     name: "FromDate",
     selector: (row) => row.from_Date,
     sortable: true,
     className: classes["fromDate-column"],
-    wrap : true,
-    visible : true
-
+    wrap: true,
+    visible: true,
   },
   {
     name: "ToDate",
     selector: (row) => row.to_Date,
     sortable: true,
     className: classes["toDate-column"],
-    wrap : true,
-    visible : true
-
+    wrap: true,
+    visible: true,
   },
   {
     name: "TotalDays",
     selector: (row) => row.totalDays,
     sortable: true,
-    wrap : true,
-    visible : true
-
+    wrap: true,
+    visible: true,
   },
   {
     name: "Status",
     selector: (row) => row.status,
     sortable: true,
     className: classes["status-column"],
-    wrap : true,
-    visible : true
-
+    wrap: true,
+    visible: true,
   },
   {
     name: "Reason",
     selector: (row) => row.reason,
-    visible : true
+    visible: true,
   },
   {
     name: "Actions",
     cell: (row) => {
-      const hideButtons = Past15Days(row.to_Date) && (row.status === approved || row.status === rejected);
+      const hideButtons =
+        Past15Days(row.to_Date) &&
+        (row.status === approved || row.status === rejected);
       const isPending = row.status === pending;
-             const isApproved = row.status === approved;
-             const isRejected = row.status === rejected;
+      const isApproved = row.status === approved;
+      const isRejected = row.status === rejected;
       return (
         <div className={classes["actions-buttons"]}>
           {!hideButtons && (
-               <div className={classes["actions-buttons"]}>
-                 {isPending && (
-                   <>
-                     <UpdateStatus
-                       leaveApplicationId={row.leaveApplicationId}
-                       managerId={row.managerId}
-                       status={approved}
-                     >
-                       Approve
-                     </UpdateStatus>
-                     <UpdateStatus
-                       leaveApplicationId={row.leaveApplicationId}
-                       managerId={row.managerId}
-                       status={rejected}
-                     >
-                       Reject
-                     </UpdateStatus>
-                   </>
-                 )}
-                 {isRejected && (
-                   <UpdateStatus
-                     leaveApplicationId={row.leaveApplicationId}
-                     managerId={row.managerId}
-                     status={approved}
-                   >
-                     Approve
-                   </UpdateStatus>
-                 )}
-                 {isApproved && (
-                   <UpdateStatus
-                     leaveApplicationId={row.leaveApplicationId}
-                     managerId={row.managerId}
-                     status={rejected}
-                   >
-                     Reject
-                   </UpdateStatus>
-                 )}
-               </div>
-             
+            <div className={classes["actions-buttons"]}>
+              {isPending && (
+                <>
+                  <UpdateStatus
+                    leaveApplicationId={row.leaveApplicationId}
+                    managerId={row.managerId}
+                    status={approved}
+                  >
+                    Approve
+                  </UpdateStatus>
+                  <UpdateStatus
+                    leaveApplicationId={row.leaveApplicationId}
+                    managerId={row.managerId}
+                    status={rejected}
+                  >
+                    Reject
+                  </UpdateStatus>
+                </>
+              )}
+              {isRejected && (
+                <UpdateStatus
+                  leaveApplicationId={row.leaveApplicationId}
+                  managerId={row.managerId}
+                  status={approved}
+                >
+                  Approve
+                </UpdateStatus>
+              )}
+              {isApproved && (
+                <UpdateStatus
+                  leaveApplicationId={row.leaveApplicationId}
+                  managerId={row.managerId}
+                  status={rejected}
+                >
+                  Reject
+                </UpdateStatus>
+              )}
+            </div>
           )}
 
           {hideButtons && (
@@ -131,14 +127,16 @@ function ManagerLeaves() {
         return columns.some((column) => {
           if (column.visible) {
             const value = column.selector(employee);
-            return String(value).toLowerCase().includes(searchElement.toLowerCase());
+            return String(value)
+              .toLowerCase()
+              .includes(searchElement.toLowerCase());
           }
           return false;
         });
       });
       setFilteredData(searchList);
     }
-  }, [searchElement, loaderData.data]);
+  }, [searchElement, loaderData.data, loaderData.isSuccess]);
 
   const handleSearch = (event) => {
     setSearchElement(event.target.value);
@@ -156,7 +154,7 @@ function ManagerLeaves() {
       {loaderData.isSuccess ? (
         filteredData && filteredData.length > 0 ? (
           <DataTable
-            columns={columns} 
+            columns={columns}
             data={filteredData}
             className={classes["react-data-table"]}
           />
@@ -172,12 +170,12 @@ function ManagerLeaves() {
   );
 }
 
-export async function loader({ request, params }) {
+export async function loader() {
   const Token = localStorage.getItem("Token");
   if (Token) {
     const tokenArray = Token.split(".");
     const tokenPayload = JSON.parse(atob(tokenArray[1]));
-    const employeeId = Number(tokenPayload.sub)
+    const employeeId = Number(tokenPayload.sub);
     const result = await getAllManagerLeaves(employeeId);
 
     const response = await result.json();

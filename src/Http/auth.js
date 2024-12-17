@@ -8,12 +8,12 @@ export async function auth(credentials,authType)
          token = localStorage.getItem("Token");
 
     }
-     const response = await fetch("https://localhost:7002/api/Auth/"+authType,{
+     const response = await fetch("https://lms-1authap.azurewebsites.net/api/Auth/"+authType,{
         method : 'POST',
         body : JSON.stringify(credentials),
         headers : {
             "Content-Type" : "application/json",
-            "Authorization" : "Beare " + token
+            "Authorization" : "Bearer " + token
         }
     });
 
@@ -34,7 +34,7 @@ export async function getRoles()
     {
         if(token)
         {
-            const response = await fetch('https://localhost:7002/api/Auth/getRoles',
+            const response = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/getRoles',
                 {
                     headers : {
                         "Authorization" : "Bearer " + token
@@ -63,7 +63,7 @@ export async function getManagers()
     {
         if(token)
             {
-                const response = await fetch('https://localhost:7002/api/Auth/getEmployees',
+                const response = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/getEmployees',
                     {
                         headers : {
                             "Authorization" : "Bearer " + token
@@ -92,7 +92,7 @@ export async function logout()
     {
         if(token)
             {
-                const result = await fetch('https://localhost:7002/api/Auth/logout',
+                const result = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/logout',
                     {
                         headers : {
                             "Authorization" : "Bearer " + token
@@ -122,7 +122,7 @@ export async function getManagerForUser(empId)
     {
         if(token)
             {
-                const response = await fetch('https://localhost:7002/api/Auth/getManager/'+ empId,
+                const response = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/getManager/'+ empId,
                     {
                         headers : {
                             "Authorization" : "Bearer " + token
@@ -150,7 +150,7 @@ export async function getEmployeesWithManager()
     {
         if(token)
             {
-                const response = await fetch('https://localhost:7002/api/Auth/getEmployesswithManager/',
+                const response = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/getEmployesswithManager/',
                     {
                         headers : {
                             "Authorization" : "Bearer " + token
@@ -178,7 +178,7 @@ export async function getEmployee(empId)
     {
         if(token)
             {
-                const response = await fetch('https://localhost:7002/api/Auth/getEmployee/'+empId,
+                const response = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/getEmployee/'+empId,
                     {
                         headers : {
                             "Authorization" : "Bearer " + token
@@ -206,11 +206,14 @@ export async function updateEmployee(credentials)
     {
         if(token)
         {
-            const result = await fetch('https://localhost:7002/api/Auth',{
+            const result = await fetch('https://lms-1authap.azurewebsites.net/api/Auth',{
                 method : "PUT",
                 body : JSON.stringify(credentials),
                 headers : {
-                    "Content-Type" : "application/json"
+                    "Content-Type" : "application/json",
+                    "Authorization" : "Bearer " + token
+
+
                 }
             });
             return result;
@@ -233,8 +236,11 @@ export async function DeleteUser(userId)
 
     try
     {
-        const result = await fetch('https://localhost:7002/api/Auth/'+userId,{
+        const result = await fetch('https://lms-1authap.azurewebsites.net/api/Auth/'+userId,{
             method : "DELETE",
+            headers : {
+                "Authorization" : "Bearer " + token
+            }
         });
         return result;
     }
